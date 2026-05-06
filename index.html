@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lar Sereno | Painel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-panel card">
+      <div class="login-panel__header">
+        <div class="brand brand--login">
+          <div class="brand__mark">
+            <img src="./assets/img/logo-theme.jpeg" alt="Logo do sistema" />
+          </div>
+          <div>
+            <strong>Lar Sereno</strong>
+            <p>Cuidado com presenca acolhedora</p>
+          </div>
+        </div>
+        <span class="overline">Acesso ao sistema</span>
+        <h1>Entrar no painel Lar Sereno</h1>
+        <p>Escolha o perfil de acesso para entrar como familiar ou administrador.</p>
+      </div>
+
+      <div class="login-roles">
+        <button class="role-card active" type="button" data-role="familiar">
+          <strong>Familiar</strong>
+          <span>Acompanha relatórios, agenda e atualizações do residente.</span>
+        </button>
+        <button class="role-card" type="button" data-role="administrador">
+          <strong>Administrador</strong>
+          <span>Gerencia residentes, equipe, relatórios e operação completa.</span>
+        </button>
+      </div>
+
+      <form class="login-form" id="loginForm">
+        <label class="field">
+          <span id="loginEmailLabel">E-mail do familiar</span>
+          <input id="loginEmail" type="email" placeholder="familiar@larsereno.com" required />
+        </label>
+        <label class="field">
+          <span>Senha</span>
+          <input id="loginSenha" type="password" placeholder="Digite sua senha" required />
+        </label>
+        <div class="login-panel__actions">
+          <button class="btn btn--ghost" id="preencherDemo" type="button">Preencher demo</button>
+          <button class="btn btn--primary" type="submit">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="actionModal">
+    <div class="modal card">
+      <div class="modal__header">
+        <div>
+          <span class="overline" id="modalEtiqueta">Ação</span>
+          <h2 id="modalTitulo">Painel</h2>
+        </div>
+        <button class="modal__close" id="fecharModal" type="button" aria-label="Fechar">×</button>
+      </div>
+      <p id="modalDescricao">Descrição da ação.</p>
+      <div class="modal__content" id="modalConteudo"></div>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="cancelarModal" type="button">Fechar</button>
+        <button class="btn btn--primary" id="confirmarModal" type="button">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand__mark">
+          <img src="./assets/img/logo-theme.jpeg" alt="Logo do Lar Sereno" />
+        </div>
+        <div>
+          <strong>Lar Sereno</strong>
+          <p>Gestao completa do cuidado</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__link active" type="button" data-screen="inicio">Início</button>
+        <button class="nav__link" type="button" data-screen="residentes">Residentes</button>
+        <button class="nav__link" type="button" data-screen="saude">Saúde</button>
+        <button class="nav__link" type="button" data-screen="relatorios">Relatórios</button>
+        <button class="nav__link" type="button" data-screen="equipe" data-requires-role="administrador">Equipe</button>
+        <button class="nav__link" type="button" data-screen="agenda">Agenda</button>
+      </nav>
+
+      <div class="sidebar__box">
+        <span class="badge">Plantão ativo</span>
+        <h2>Rotinas em dia e equipe conectada.</h2>
+        <p>Use o menu para navegar entre as áreas sem misturar as informações na tela principal.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <span class="overline" id="tituloSecaoPequeno">Painel do lar de idosos</span>
+          <h1 id="tituloSecao">Visão geral organizada por áreas</h1>
+          <p id="descricaoSecao">Acompanhe indicadores, moradores, saúde, relatórios, equipe e agenda em telas separadas.</p>
+        </div>
+
+        <div class="topbar__actions">
+          <button class="btn btn--ghost" id="menuToggle" type="button">Menu</button>
+          <button class="btn btn--ghost" id="themeToggle" type="button">Tema</button>
+          <button class="btn btn--primary" id="botaoNovoRelatorio" type="button" data-action="novo-relatorio" data-screen-target="relatorios" data-requires-role="administrador">Novo relatório</button>
+        </div>
+      </header>
+
+      <section class="screen screen--active" id="screen-inicio" data-screen-panel="inicio">
+        <div class="hero card">
+          <div class="hero__copy">
+            <span class="badge badge--soft">Resumo do turno</span>
+            <h2>Cada área agora tem a própria tela para facilitar a navegação.</h2>
+            <p>Na tela inicial ficam só os indicadores mais importantes e atalhos para as áreas principais do sistema.</p>
+          </div>
+          <div class="hero__actions">
+            <button class="btn btn--primary" type="button" data-screen-target="residentes">Abrir residentes</button>
+            <button class="btn btn--ghost" type="button" data-screen-target="agenda">Ver agenda</button>
+          </div>
+        </div>
+
+        <section class="metrics">
+          <article class="card metric">
+            <span>Residentes ativos</span>
+            <strong>48</strong>
+            <small>ocupação atual</small>
+          </article>
+          <article class="card metric">
+            <span>Medicações hoje</span>
+            <strong>126</strong>
+            <small>94% no horário</small>
+          </article>
+          <article class="card metric">
+            <span>Relatórios gerados</span>
+            <strong>19</strong>
+            <small>turno da manhã</small>
+          </article>
+          <article class="card metric">
+            <span>Alertas ativos</span>
+            <strong>02</strong>
+            <small>sem urgência grave</small>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="card section">
+            <div class="section__head">
+              <div>
+                <h3>Destaques do dia</h3>
+                <p>Um resumo rápido para começar o plantão com clareza.</p>
+              </div>
+            </div>
+
+            <div class="notes">
+              <article class="note">
+                <strong>Banhos concluídos</strong>
+                <p>42 de 48 residentes já passaram pela rotina de higiene.</p>
+              </article>
+              <article class="note">
+                <strong>Mensagens familiares</strong>
+                <p>12 respostas enviadas e 6 novas atualizações aguardando envio.</p>
+              </article>
+              <article class="note">
+                <strong>Consultas agendadas</strong>
+                <p>7 compromissos marcados para hoje, com foco em geriatria e fisioterapia.</p>
+              </article>
+            </div>
+          </article>
+
+          <article class="card section">
+            <div class="section__head">
+              <div>
+                <h3>Atalhos rápidos</h3>
+                <p>Vá direto para a área que precisa agora.</p>
+              </div>
+            </div>
+
+            <div class="shortcut-grid">
+              <button class="shortcut-card" type="button" data-screen-target="residentes">
+                <strong>Residentes</strong>
+                <span>Prontuários, perfis e histórico de cuidado.</span>
+              </button>
+              <button class="shortcut-card" type="button" data-screen-target="saude">
+                <strong>Saúde</strong>
+                <span>Sinais vitais, monitoramento e alertas clínicos.</span>
+              </button>
+              <button class="shortcut-card" type="button" data-screen-target="relatorios">
+                <strong>Relatórios</strong>
+                <span>Modelos prontos para exportação e gestão.</span>
+              </button>
+              <button class="shortcut-card" type="button" data-screen-target="equipe" data-requires-role="administrador">
+                <strong>Equipe</strong>
+                <span>Profissionais em atividade e responsabilidades.</span>
+              </button>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-residentes" data-screen-panel="residentes">
+        <article class="card section">
+          <div class="section__head">
+            <div>
+              <h3>Area de residentes</h3>
+              <p>Visualizacao centralizada do prontuario com lista organizada e edicao rapida.</p>
+            </div>
+            <button class="btn btn--ghost" type="button" id="editResidentButton">Editar residente</button>
+          </div>
+
+          <div class="resident-layout">
+            <aside class="resident-selector" id="residentList"></aside>
+
+            <div class="resident-content">
+              <form class="resident-form hidden" id="residentForm">
+                <div class="resident-form__grid">
+                  <label class="field">
+                    <span>Nome completo</span>
+                    <input type="text" id="residentEditName" placeholder="Nome do residente" />
+                  </label>
+                  <label class="field">
+                    <span>Resumo principal</span>
+                    <input type="text" id="residentEditMeta" placeholder="Ex.: 82 anos | Quarto 12 | Hipertensao controlada" />
+                  </label>
+                </div>
+                <label class="field">
+                  <span>Etiquetas</span>
+                  <input type="text" id="residentEditTags" placeholder="Separe por virgula" />
+                </label>
+                <div class="resident-form__grid resident-form__grid--summary">
+                  <label class="field">
+                    <span>Resumo 1</span>
+                    <input type="text" id="residentSummaryLabel1" placeholder="Titulo" />
+                    <input type="text" id="residentSummaryValue1" placeholder="Valor" />
+                  </label>
+                  <label class="field">
+                    <span>Resumo 2</span>
+                    <input type="text" id="residentSummaryLabel2" placeholder="Titulo" />
+                    <input type="text" id="residentSummaryValue2" placeholder="Valor" />
+                  </label>
+                  <label class="field">
+                    <span>Resumo 3</span>
+                    <input type="text" id="residentSummaryLabel3" placeholder="Titulo" />
+                    <input type="text" id="residentSummaryValue3" placeholder="Valor" />
+                  </label>
+                </div>
+                <div class="team-form__actions">
+                  <button class="btn btn--primary" type="submit">Salvar residente</button>
+                </div>
+              </form>
+
+              <div class="resident">
+                <div class="resident__profile">
+                  <div class="resident__avatar" id="residentAvatar">M</div>
+                  <div>
+                    <h4 id="residentName">Maria das Dores</h4>
+                    <p id="residentMeta">82 anos | Quarto 12 | Hipertensao controlada</p>
+                    <div class="resident__tags" id="residentTags">
+                      <span>Dieta pastosa</span>
+                      <span>Fisioterapia 3x por semana</span>
+                      <span>Acompanhamento cardiologico</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="resident__actions">
+                  <button class="btn btn--ghost" type="button" data-action="prontuario">Prontuario</button>
+                  <button class="btn btn--ghost" type="button" data-action="historico">Historico</button>
+                  <button class="btn btn--primary" type="button" data-action="gerar-relatorio" data-screen-target="relatorios" data-requires-role="administrador">Gerar relatorio</button>
+                </div>
+              </div>
+
+              <div class="summary" id="residentSummary">
+                <article class="summary__item">
+                  <span>Humor predominante</span>
+                  <strong>Calmo e participativo</strong>
+                </article>
+                <article class="summary__item">
+                  <span>Ingestao hidrica</span>
+                  <strong>1,8L de 2,0L</strong>
+                </article>
+                <article class="summary__item">
+                  <span>Qualidade do sono</span>
+                  <strong>7h42 boa</strong>
+                </article>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" id="screen-saude" data-screen-panel="saude">
+        <article class="card section">
+          <div class="section__head">
+            <div>
+              <h3>Saude e monitoramento</h3>
+              <p>Indicadores principais do acompanhamento clinico do residente selecionado.</p>
+            </div>
+            <div class="actions">
+              <span class="badge badge--soft">Atualizado agora</span>
+              <button class="btn btn--ghost" type="button" id="editHealthButton">Editar saude</button>
+            </div>
+          </div>
+
+          <form class="health-form hidden" id="healthForm">
+            <div class="health-form__grid">
+              <label class="field">
+                <span>Pressao arterial</span>
+                <input type="text" id="healthBp" placeholder="Ex.: 12,8 / 8,2" />
+              </label>
+              <label class="field">
+                <span>Frequencia cardiaca</span>
+                <input type="text" id="healthHeart" placeholder="Ex.: 72 bpm" />
+              </label>
+              <label class="field">
+                <span>Temperatura</span>
+                <input type="text" id="healthTemp" placeholder="Ex.: 36,4 C" />
+              </label>
+              <label class="field">
+                <span>Glicemia</span>
+                <input type="text" id="healthGlucose" placeholder="Ex.: 118 mg/dL" />
+              </label>
+            </div>
+            <div class="health-form__grid health-form__grid--notes">
+              <label class="field">
+                <span>Observacao 1</span>
+                <input type="text" id="healthNoteTitle1" placeholder="Titulo do bloco" />
+                <textarea id="healthNoteText1" placeholder="Descricao da observacao"></textarea>
+              </label>
+              <label class="field">
+                <span>Observacao 2</span>
+                <input type="text" id="healthNoteTitle2" placeholder="Titulo do bloco" />
+                <textarea id="healthNoteText2" placeholder="Descricao da observacao"></textarea>
+              </label>
+              <label class="field">
+                <span>Observacao 3</span>
+                <input type="text" id="healthNoteTitle3" placeholder="Titulo do bloco" />
+                <textarea id="healthNoteText3" placeholder="Descricao da observacao"></textarea>
+              </label>
+            </div>
+            <div class="team-form__actions">
+              <button class="btn btn--primary" type="submit">Salvar saude</button>
+            </div>
+          </form>
+
+          <div class="vitals">
+            <article class="vital">
+              <span>Pressao arterial</span>
+              <strong id="bpValue">12,8 / 8,2</strong>
+              <small>estavel</small>
+            </article>
+            <article class="vital">
+              <span>Frequencia cardiaca</span>
+              <strong id="heartValue">72 bpm</strong>
+              <small>normal</small>
+            </article>
+            <article class="vital">
+              <span>Temperatura</span>
+              <strong id="tempValue">36,4 C</strong>
+              <small>sem alteracoes</small>
+            </article>
+            <article class="vital">
+              <span>Glicemia</span>
+              <strong id="glucoseValue">118 mg/dL</strong>
+              <small>pos-refeicao</small>
+            </article>
+          </div>
+
+          <div class="notes notes--health">
+            <article class="note">
+              <strong id="healthNoteTitleDisplay1">Medicacao no horario</strong>
+              <p id="healthNoteTextDisplay1">96% das administracoes realizadas dentro da janela prevista.</p>
+            </article>
+            <article class="note">
+              <strong id="healthNoteTitleDisplay2">Monitoramento continuo</strong>
+              <p id="healthNoteTextDisplay2">Sem alteracoes criticas desde a ultima atualizacao do plantao.</p>
+            </article>
+            <article class="note">
+              <strong id="healthNoteTitleDisplay3">Conduta sugerida</strong>
+              <p id="healthNoteTextDisplay3">Manter hidratacao assistida e acompanhamento do sono.</p>
+            </article>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" id="screen-relatorios" data-screen-panel="relatorios">
+        <article class="card section">
+          <div class="section__head">
+            <div>
+              <h3>Central de relatórios</h3>
+              <p>Área organizada para relatórios diários, clínicos e gerenciais.</p>
+            </div>
+            <div class="actions">
+              <button class="btn btn--ghost" type="button" data-requires-role="administrador">CSV</button>
+              <button class="btn btn--ghost" type="button" data-requires-role="administrador">Excel</button>
+              <button class="btn btn--primary" type="button">PDF</button>
+            </div>
+          </div>
+
+          <div class="report-grid">
+            <article class="report-card">
+              <span class="badge">Diário</span>
+              <h4>Relatório diário completo</h4>
+              <p>Alimentação, humor, higiene, medicação, atividades e observações do turno.</p>
+            </article>
+            <article class="report-card" data-requires-role="administrador">
+              <span class="badge badge--soft">Clínico</span>
+              <h4>Relatório médico semanal</h4>
+              <p>Evolução do paciente, alterações de conduta e acompanhamento profissional.</p>
+            </article>
+            <article class="report-card" data-requires-role="administrador">
+              <span class="badge badge--soft">Gestão</span>
+              <h4>Relatório administrativo</h4>
+              <p>Custos, equipe ativa, ocorrências e desempenho geral da unidade.</p>
+            </article>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Relatório</th>
+                  <th>Responsável</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Maria das Dores | Diário completo</td>
+                  <td>Enf. Carla Menezes</td>
+                  <td>04/05/2026 07:12</td>
+                  <td>Concluído</td>
+                </tr>
+                <tr>
+                  <td>Unidade A | Clínico semanal</td>
+                  <td>Dr. Renato Alves</td>
+                  <td>03/05/2026 18:45</td>
+                  <td>Em revisão</td>
+                </tr>
+                <tr>
+                  <td>Gestão geral | Indicadores</td>
+                  <td>Coord. Ana Silva</td>
+                  <td>04/05/2026 06:50</td>
+                  <td>Exportado</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" id="screen-equipe" data-screen-panel="equipe">
+        <article class="card section">
+          <div class="section__head">
+            <div>
+              <h3>Equipe ativa</h3>
+              <p>Profissionais em acompanhamento no turno atual.</p>
+            </div>
+            <button class="btn btn--primary" type="button" id="addTeamMemberButton">Adicionar funcionario</button>
+          </div>
+
+          <form class="team-form hidden" id="teamForm">
+            <label class="field">
+              <span>Nome do funcionario</span>
+              <input type="text" id="teamName" placeholder="Ex.: Enfermeira Julia Costa" />
+            </label>
+            <label class="field">
+              <span>Funcao</span>
+              <input type="text" id="teamRole" placeholder="Ex.: Triagem da ala C" />
+            </label>
+            <label class="field">
+              <span>Status inicial</span>
+              <select id="teamInitialStatus">
+                <option value="online">Fora de servico</option>
+                <option value="ronda">Em ronda</option>
+                <option value="atividade">Atividade especifica</option>
+              </select>
+            </label>
+            <label class="field hidden" id="teamInitialActivityField">
+              <span>Atividade especifica</span>
+              <input type="text" id="teamInitialActivity" placeholder="Ex.: Visita ao quarto 10" />
+            </label>
+            <div class="team-form__actions">
+              <button class="btn btn--primary" type="submit">Salvar funcionario</button>
+            </div>
+          </form>
+
+          <div class="list" id="teamList"></div>
+        </article>
+      </section>
+
+      <section class="screen" id="screen-agenda" data-screen-panel="agenda">
+        <article class="card section">
+          <div class="section__head">
+            <div>
+              <h3>Agenda do turno</h3>
+              <p>Compromissos essenciais do dia organizados em uma tela própria.</p>
+            </div>
+          </div>
+
+          <div class="agenda">
+            <article class="agenda__item">
+              <strong>08:00</strong>
+              <p>Administração de medicação na ala B</p>
+            </article>
+            <article class="agenda__item">
+              <strong>09:30</strong>
+              <p>Fisioterapia em grupo na sala Jardim</p>
+            </article>
+            <article class="agenda__item">
+              <strong>11:00</strong>
+              <p>Consulta geriátrica com Maria das Dores</p>
+            </article>
+            <article class="agenda__item">
+              <strong>14:15</strong>
+              <p>Atualização para familiares com resumo do dia e fotos autorizadas.</p>
+            </article>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+
