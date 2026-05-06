@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lar Sereno | Painel Completo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5efe6;
+      --bg-soft: #f9f6f1;
+      --panel: rgba(255, 252, 247, 0.88);
+      --panel-strong: #fffdf9;
+      --line: rgba(90, 66, 44, 0.12);
+      --text: #2f241c;
+      --muted: #756251;
+      --accent: #2c8c74;
+      --accent-strong: #176b59;
+      --accent-soft: #dff4ec;
+      --gold: #c7923d;
+      --rose: #f5d9cf;
+      --shadow: 0 24px 70px rgba(82, 56, 31, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(199, 146, 61, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(44, 140, 116, 0.14), transparent 24%),
+        linear-gradient(180deg, #f8f1e8 0%, #f2ebe0 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 90%);
+      opacity: 0.35;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px;
+      background: rgba(66, 47, 32, 0.94);
+      color: #f7f1e7;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .brand-mark {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(44, 140, 116, 0.45));
+      font-size: 28px;
+    }
+
+    .brand h1 {
+      font-family: "Fraunces", serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p,
+    .side-note,
+    .menu a,
+    .family-card p,
+    .small {
+      color: rgba(247, 241, 231, 0.76);
+    }
+
+    .menu {
+      display: grid;
+      gap: 10px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      padding: 14px 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .menu a.active,
+    .menu a:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .family-card {
+      margin-top: auto;
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(160deg, rgba(44, 140, 116, 0.9), rgba(17, 85, 71, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .family-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .family-card button,
+    .toolbar button,
+    .report-actions button,
+    .resident-actions button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .family-card button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #fff7ef;
+      color: var(--accent-strong);
+      font-weight: 700;
+    }
+
+    .family-card button:hover,
+    .toolbar button:hover,
+    .report-actions button:hover,
+    .resident-actions button:hover {
+      transform: translateY(-2px);
+    }
+
+    .content {
+      padding: 28px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      background: rgba(255, 251, 246, 0.75);
+      border: 1px solid rgba(90, 66, 44, 0.08);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(73, 44, 18, 0.07);
+    }
+
+    .topbar h2 {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .topbar p {
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .toolbar button {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+    }
+
+    .toolbar .ghost {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--text);
+      border: 1px solid rgba(90, 66, 44, 0.08);
+    }
+
+    .toolbar .solid,
+    .report-actions .solid,
+    .resident-actions .solid {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(44, 140, 116, 0.25);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+      gap: 24px;
+    }
+
+    .hero-card,
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(90, 66, 44, 0.08);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      min-height: 320px;
+      display: grid;
+      align-content: space-between;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.4), transparent 20%),
+        linear-gradient(145deg, rgba(255, 251, 246, 0.94), rgba(235, 244, 240, 0.94));
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      right: -90px;
+      top: -80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(44, 140, 116, 0.22), transparent 70%);
+    }
+
+    .eyebrow,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .eyebrow {
+      background: rgba(44, 140, 116, 0.12);
+      color: var(--accent-strong);
+      width: fit-content;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+    }
+
+    .hero-copy h3 {
+      margin-top: 18px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy p {
+      margin-top: 16px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(90, 66, 44, 0.06);
+    }
+
+    .metric span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .overview {
+      padding: 26px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .panel-title h4 {
+      font-size: 20px;
+    }
+
+    .panel-title p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .status-ring {
+      width: 132px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      background:
+        radial-gradient(circle closest-side, #fffaf3 71%, transparent 72% 100%),
+        conic-gradient(var(--accent) 0 81%, rgba(44, 140, 116, 0.16) 81% 100%);
+    }
+
+    .status-ring div {
+      text-align: center;
+    }
+
+    .status-ring strong {
+      font-size: 34px;
+    }
+
+    .status-grid,
+    .stats-grid,
+    .reports-grid,
+    .cards-grid,
+    .schedule-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .status-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .status-item,
+    .stats-card,
+    .report-card,
+    .mini-card,
+    .timeline-item,
+    .table-wrap,
+    .summary-box {
+      border-radius: var(--radius-lg);
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+
+    .status-item,
+    .stats-card,
+    .report-card,
+    .mini-card,
+    .summary-box {
+      padding: 18px;
+    }
+
+    .status-item strong,
+    .stats-card strong,
+    .mini-card strong {
+      display: block;
+      font-size: 24px;
+      margin-top: 10px;
+      letter-spacing: -0.04em;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-header h4 {
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cards-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stats-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 243, 236, 0.94));
+    }
+
+    .trend {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 8px 10px;
+      background: rgba(44, 140, 116, 0.12);
+      color: var(--accent-strong);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .resident-card {
+      padding: 24px;
+    }
+
+    .resident-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .resident-profile {
+      display: flex;
+      gap: 18px;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: linear-gradient(135deg, #f1dcc1, #f7efe3);
+      border: 1px solid rgba(90, 66, 44, 0.08);
+    }
+
+    .resident-profile h5 {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .resident-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .resident-meta span,
+    .report-filter span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .resident-actions,
+    .report-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-content: flex-start;
+      justify-content: flex-end;
+    }
+
+    .resident-actions button,
+    .report-actions button {
+      padding: 12px 15px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--text);
+      border: 1px solid rgba(90, 66, 44, 0.08);
+      font-weight: 700;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .summary-box {
+      background: linear-gradient(180deg, #fffdf8, #fbf6ef);
+    }
+
+    .vitals {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .mini-card em {
+      display: inline-block;
+      margin-top: 12px;
+      font-style: normal;
+      color: var(--accent-strong);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .time-pill {
+      padding: 12px;
+      border-radius: 16px;
+      text-align: center;
+      background: var(--bg-soft);
+      font-weight: 800;
+      color: var(--accent-strong);
+    }
+
+    .timeline-item strong,
+    .report-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .badge {
+      background: rgba(44, 140, 116, 0.12);
+      color: var(--accent-strong);
+    }
+
+    .badge.warn {
+      background: rgba(199, 146, 61, 0.16);
+      color: #8d631e;
+    }
+
+    .chart-card {
+      padding: 24px;
+    }
+
+    .bars {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+      min-height: 220px;
+    }
+
+    .bar {
+      border-radius: 18px 18px 10px 10px;
+      background: linear-gradient(180deg, #7fd0ba, #2c8c74);
+      position: relative;
+      min-height: 90px;
+      animation: rise 1s ease both;
+      transform-origin: bottom;
+    }
+
+    .bar:nth-child(2) { animation-delay: 0.08s; }
+    .bar:nth-child(3) { animation-delay: 0.16s; }
+    .bar:nth-child(4) { animation-delay: 0.24s; }
+    .bar:nth-child(5) { animation-delay: 0.32s; }
+    .bar:nth-child(6) { animation-delay: 0.4s; }
+    .bar:nth-child(7) { animation-delay: 0.48s; }
+
+    .bar span {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .bar::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-strong);
+    }
+
+    .reports-panel,
+    .schedule-panel {
+      padding: 24px;
+    }
+
+    .report-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+
+    .reports-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .report-card {
+      display: grid;
+      gap: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 245, 238, 0.98));
+    }
+
+    .report-card ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      margin-top: 22px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 16px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    th {
+      background: #fcf8f2;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .schedule-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .foot {
+      padding: 18px 6px 6px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @keyframes rise {
+      from {
+        transform: scaleY(0.3);
+        opacity: 0.4;
+      }
+      to {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 1220px) {
+      .hero,
+      .main-grid,
+      .cards-grid,
+      .reports-grid,
+      .schedule-grid,
+      .summary-row,
+      .vitals {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+
+      .hero,
+      .main-grid,
+      .summary-row,
+      .vitals,
+      .reports-grid,
+      .schedule-grid,
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .resident-head,
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .resident-actions,
+      .report-actions,
+      .toolbar {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .content,
+      .sidebar {
+        padding: 18px;
+      }
+
+      .hero-card,
+      .overview,
+      .resident-card,
+      .chart-card,
+      .reports-panel,
+      .schedule-panel {
+        padding: 20px;
+      }
+
+      .hero-metrics,
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .bars {
+        min-height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">L</div>
+        <h1>Lar Sereno</h1>
+        <p>Gestão humanizada para idosos, equipe e familiares em um só painel.</p>
+      </div>
+
+      <nav class="menu">
+        <a href="#" class="active"><span>Visão Geral</span><small>01</small></a>
+        <a href="#"><span>Moradores</span><small>24</small></a>
+        <a href="#"><span>Cuidados Diários</span><small>08</small></a>
+        <a href="#"><span>Medicação</span><small>05</small></a>
+        <a href="#"><span>Atividades</span><small>12</small></a>
+        <a href="#"><span>Relatórios</span><small>04</small></a>
+      </nav>
+
+      <div class="side-note">
+        <p>Plantão ativo</p>
+        <strong>Noite serena com 97% das rotinas concluídas.</strong>
+      </div>
+
+      <div class="family-card">
+        <strong>Portal da Família</strong>
+        <p>Compartilhe atualizações, relatórios e fotos com acesso seguro para responsáveis.</p>
+        <button>Enviar resumo do dia</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2>Painel operacional completo</h2>
+          <p>Segunda-feira, 4 de maio de 2026 · 07:45 · Unidade Central</p>
+        </div>
+        <div class="toolbar">
+          <button class="ghost">Filtrar período</button>
+          <button class="ghost">Exportar PDF</button>
+          <button class="solid">Novo relatório</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <article class="hero-card">
+          <div class="hero-copy">
+            <div class="eyebrow">Cuidado inteligente e acolhedor</div>
+            <h3>Administre o lar, acompanhe a saúde e gere relatórios completos em minutos.</h3>
+            <p>Uma experiência pensada para equipes de cuidado, coordenação e familiares, com foco em saúde, rotina, alimentação, atividades e histórico clínico.</p>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <span>Moradores assistidos</span>
+              <strong>48</strong>
+            </div>
+            <div class="metric">
+              <span>Relatórios hoje</span>
+              <strong>19</strong>
+            </div>
+            <div class="metric">
+              <span>Alertas críticos</span>
+              <strong>02</strong>
+            </div>
+          </div>
+        </article>
+
+        <aside class="panel overview">
+          <div class="panel-title">
+            <div>
+              <h4>Índice geral de bem-estar</h4>
+              <p>Dados agregados de saúde, hidratação, sono e engajamento.</p>
+            </div>
+            <span class="badge">Atualizado agora</span>
+          </div>
+
+          <div class="status-ring">
+            <div>
+              <strong>81%</strong>
+              <p class="muted">estável</p>
+            </div>
+          </div>
+
+          <div class="status-grid">
+            <div class="status-item">
+              <span class="muted">Medicação no horário</span>
+              <strong>96%</strong>
+            </div>
+            <div class="status-item">
+              <span class="muted">Refeições completas</span>
+              <strong>89%</strong>
+            </div>
+            <div class="status-item">
+              <span class="muted">Participação em atividades</span>
+              <strong>74%</strong>
+            </div>
+            <div class="status-item">
+              <span class="muted">Sinais vitais normais</span>
+              <strong>92%</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="stack">
+        <div class="section-header">
+          <div>
+            <h4>Indicadores do dia</h4>
+            <p>Visão rápida para a coordenação e equipe assistencial.</p>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <article class="stats-card">
+            <span class="muted">Banhos concluídos</span>
+            <strong>42/48</strong>
+            <div class="trend">+8% vs. ontem</div>
+          </article>
+          <article class="stats-card">
+            <span class="muted">Consultas agendadas</span>
+            <strong>07</strong>
+            <div class="trend">3 para geriatria</div>
+          </article>
+          <article class="stats-card">
+            <span class="muted">Ocorrências registradas</span>
+            <strong>05</strong>
+            <div class="trend">Todas moderadas</div>
+          </article>
+          <article class="stats-card">
+            <span class="muted">Mensagens familiares</span>
+            <strong>18</strong>
+            <div class="trend">12 respondidas</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="main-grid">
+        <div class="stack">
+          <article class="panel resident-card">
+            <div class="resident-head">
+              <div class="resident-profile">
+                <div class="avatar">M</div>
+                <div>
+                  <h5>Maria das Dores</h5>
+                  <p class="muted">82 anos · Quarto 12 · Plano de cuidado intensivo leve</p>
+                  <div class="resident-meta">
+                    <span>Hipertensão</span>
+                    <span>Dieta pastosa</span>
+                    <span>Fisioterapia 3x/semana</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="resident-actions">
+                <button>Prontuário</button>
+                <button>Agenda</button>
+                <button class="solid">Gerar relatório completo</button>
+              </div>
+            </div>
+
+            <div class="summary-row">
+              <div class="summary-box">
+                <span class="muted">Humor predominante</span>
+                <strong>Calmo e participativo</strong>
+              </div>
+              <div class="summary-box">
+                <span class="muted">Ingestão hídrica</span>
+                <strong>1,8 L de 2,0 L</strong>
+              </div>
+              <div class="summary-box">
+                <span class="muted">Qualidade do sono</span>
+                <strong>7h42 · Boa</strong>
+              </div>
+            </div>
+
+            <div class="section-header">
+              <div>
+                <h4>Sinais vitais e cuidados</h4>
+                <p>Leituras mais recentes com resumo de rotina.</p>
+              </div>
+            </div>
+
+            <div class="vitals">
+              <div class="mini-card">
+                <span class="muted">Pressão arterial</span>
+                <strong>12,8 / 8,2</strong>
+                <em>Dentro do esperado</em>
+              </div>
+              <div class="mini-card">
+                <span class="muted">Frequência cardíaca</span>
+                <strong>72 bpm</strong>
+                <em>Sem alterações</em>
+              </div>
+              <div class="mini-card">
+                <span class="muted">Temperatura</span>
+                <strong>36,4 °C</strong>
+                <em>Monitoramento normal</em>
+              </div>
+              <div class="mini-card">
+                <span class="muted">Glicemia</span>
+                <strong>118 mg/dL</strong>
+                <em>Pós-café da manhã</em>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel chart-card">
+            <div class="section-header">
+              <div>
+                <h4>Engajamento semanal</h4>
+                <p>Participação média por dia em atividades terapêuticas.</p>
+              </div>
+              <span class="badge">Últimos 7 dias</span>
+            </div>
+
+            <div class="bars">
+              <div class="bar" style="height: 72%;" data-value="72%"><span>Seg</span></div>
+              <div class="bar" style="height: 58%;" data-value="58%"><span>Ter</span></div>
+              <div class="bar" style="height: 80%;" data-value="80%"><span>Qua</span></div>
+              <div class="bar" style="height: 65%;" data-value="65%"><span>Qui</span></div>
+              <div class="bar" style="height: 89%;" data-value="89%"><span>Sex</span></div>
+              <div class="bar" style="height: 54%;" data-value="54%"><span>Sáb</span></div>
+              <div class="bar" style="height: 76%;" data-value="76%"><span>Dom</span></div>
+            </div>
+          </article>
+
+          <article class="panel reports-panel">
+            <div class="section-header">
+              <div>
+                <h4>Central de relatórios</h4>
+                <p>Modelos prontos para exportação por residente, setor ou período.</p>
+              </div>
+              <div class="report-actions">
+                <button>CSV</button>
+                <button>Excel</button>
+                <button class="solid">PDF institucional</button>
+              </div>
+            </div>
+
+            <div class="report-filter">
+              <span>Diário</span>
+              <span>Enfermagem</span>
+              <span>Nutrição</span>
+              <span>Fisioterapia</span>
+              <span>Ocorrências</span>
+              <span>Financeiro</span>
+            </div>
+
+            <div class="reports-grid">
+              <article class="report-card">
+                <div class="badge">Mais usado</div>
+                <strong>Relatório diário completo</strong>
+                <p class="muted">Consolida medicação, refeições, higiene, humor, sinais vitais e atividades.</p>
+                <ul>
+                  <li>Período: manhã, tarde e noite</li>
+                  <li>Assinatura do cuidador</li>
+                  <li>Pronto para familiares</li>
+                </ul>
+              </article>
+
+              <article class="report-card">
+                <div class="badge warn">Auditoria</div>
+                <strong>Relatório clínico semanal</strong>
+                <p class="muted">Traz evolução do quadro, observações médicas e comparativo de indicadores.</p>
+                <ul>
+                  <li>Evolução de sinais vitais</li>
+                  <li>Intercorrências do período</li>
+                  <li>Plano de ação sugerido</li>
+                </ul>
+              </article>
+
+              <article class="report-card">
+                <div class="badge">Gestão</div>
+                <strong>Relatório gerencial</strong>
+                <p class="muted">Resumo por unidade com ocupação, custos assistenciais e nível de risco.</p>
+                <ul>
+                  <li>Taxa de ocupação</li>
+                  <li>Incidentes por setor</li>
+                  <li>Eficiência operacional</li>
+                </ul>
+              </article>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Relatório</th>
+                    <th>Responsável</th>
+                    <th>Última geração</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Maria das Dores · Diário completo</td>
+                    <td>Enf. Carla Menezes</td>
+                    <td>04/05/2026 · 07:12</td>
+                    <td><span class="badge">Concluído</span></td>
+                  </tr>
+                  <tr>
+                    <td>Unidade A · Clínico semanal</td>
+                    <td>Dr. Renato Alves</td>
+                    <td>03/05/2026 · 18:45</td>
+                    <td><span class="badge warn">Em revisão</span></td>
+                  </tr>
+                  <tr>
+                    <td>Gestão geral · Indicadores</td>
+                    <td>Coord. Ana Silva</td>
+                    <td>04/05/2026 · 06:50</td>
+                    <td><span class="badge">Exportado</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div class="stack">
+          <article class="panel schedule-panel">
+            <div class="section-header">
+              <div>
+                <h4>Agenda assistencial</h4>
+                <p>Próximos compromissos e rotinas críticas do plantão.</p>
+              </div>
+            </div>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="time-pill">08:00</div>
+                <div>
+                  <strong>Administração de medicação</strong>
+                  <p class="muted">Ala B · 14 moradores com confirmação obrigatória.</p>
+                </div>
+                <span class="badge">Prioridade</span>
+              </div>
+
+              <div class="timeline-item">
+                <div class="time-pill">09:30</div>
+                <div>
+                  <strong>Fisioterapia em grupo</strong>
+                  <p class="muted">Sala Jardim · Mobilidade leve e alongamento funcional.</p>
+                </div>
+                <span class="badge">Atividade</span>
+              </div>
+
+              <div class="timeline-item">
+                <div class="time-pill">11:00</div>
+                <div>
+                  <strong>Consulta geriátrica</strong>
+                  <p class="muted">Maria das Dores · Revisão de antihipertensivos.</p>
+                </div>
+                <span class="badge warn">Atenção</span>
+              </div>
+
+              <div class="timeline-item">
+                <div class="time-pill">14:15</div>
+                <div>
+                  <strong>Atualização para familiares</strong>
+                  <p class="muted">Envio automático de resumo diário e fotos autorizadas.</p>
+                </div>
+                <span class="badge">Digital</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel schedule-panel">
+            <div class="section-header">
+              <div>
+                <h4>Áreas monitoradas</h4>
+                <p>Resumo por disciplina para rápida tomada de decisão.</p>
+              </div>
+            </div>
+
+            <div class="schedule-grid">
+              <div class="summary-box">
+                <span class="muted">Nutrição</span>
+                <strong>6 dietas especiais</strong>
+                <p class="muted">2 com reforço proteico e 1 com suplementação líquida.</p>
+              </div>
+              <div class="summary-box">
+                <span class="muted">Enfermagem</span>
+                <strong>18 registros</strong>
+                <p class="muted">Sem quedas no período e 2 observações de pressão.</p>
+              </div>
+              <div class="summary-box">
+                <span class="muted">Psicossocial</span>
+                <strong>12 atendimentos</strong>
+                <p class="muted">Maior adesão nas rodas de conversa da tarde.</p>
+              </div>
+              <div class="summary-box">
+                <span class="muted">Financeiro</span>
+                <strong>93% regularizado</strong>
+                <p class="muted">2 contratos aguardando atualização cadastral.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <p class="foot">Frontend conceito para lar de idosos com dashboard completo, gestão diária e geração de relatórios assistenciais.</p>
+    </main>
+  </div>
+</body>
+</html>
